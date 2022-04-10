@@ -96,8 +96,8 @@ export default {
       selectedLabel: 'entity',
       // 参数表单对象
       formParam: {
-        author: 'houcheng',
-        email: 'houcheng@boco.com.cn',
+        author: 'sunnyc',
+        email: 'hczshd@gmail.com',
         ignorePrefix: 't_'
       },
       // 生成代码参数对象
