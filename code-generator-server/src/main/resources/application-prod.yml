@@ -1,0 +1,7 @@
+server:
+  port: 30306
+# 自定义swagger配置信息
+swagger:
+  title: 程の代码生成器
+  description: 一键生成前后端所有代码
+  version: 1.0
