@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author: houcheng
- * @email: houcheng@boco.com.cn
+ * @author: ${author}
+ * @email: ${email}
  * @date: ${.now?string('yyyy-MM-dd HH:mm:ss')}
  * @version: V1.0
  * @description: ${classInfo.classComment}服务接口实现类

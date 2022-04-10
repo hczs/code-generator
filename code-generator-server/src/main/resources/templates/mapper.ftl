@@ -1,8 +1,8 @@
 import com.boco.common.mybatisplus.MyBaseMapper;
 
 /**
- * @author: houcheng
- * @email: houcheng@boco.com.cn
+ * @author: ${author}
+ * @email: ${email}
  * @date: ${.now?string('yyyy-MM-dd HH:mm:ss')}
  * @version: V1.0
  * @description: ${classInfo.classComment}

@@ -24,7 +24,7 @@ public class GeneratorServiceImpl implements GeneratorService {
         for (String template : allTemplate) {
             params.put("hello", "hello, world!");
             String result = FreemarkerUtil.renderAndGetString(template, params);
-            resultMap.put(template, result);
+            resultMap.put(template.split("\\.")[0], result);
         }
         return resultMap;
     }
