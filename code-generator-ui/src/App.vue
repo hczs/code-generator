@@ -40,12 +40,30 @@
               <el-input v-model="formParam.ignorePrefix" />
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="6">
-            参数预留位置
-          </el-col> -->
+          <el-col :span="6">
+            <el-form-item label="权限标识" label-width="90px">
+              <span slot="label">
+                <el-tooltip effect="light" content="@PreAuthorize 值的统一标识" placement="right-start">
+                  <span><i class="el-icon-question" /> 权限标识</span>
+                </el-tooltip>
+              </span>
+              <el-input v-model="formParam.permission" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="映射路径" label-width="90px">
+              <span slot="label">
+                <el-tooltip effect="light" content="controller 中 @RequestMapping 对应信息" placement="right-start">
+                  <span><i class="el-icon-question" /> 映射路径</span>
+                </el-tooltip>
+              </span>
+              <el-input v-model="formParam.requestMapping" />
+            </el-form-item>
+          </el-col>
+
         </el-row>
       </el-form>
-      <el-button type="success" @click="generateCode">生成代码</el-button>
+      <el-button v-loading.fullscreen.lock="loading" type="success" @click="generateCode">生成代码</el-button>
       <el-button @click="clear">清空</el-button>
 
     </el-card>
@@ -58,6 +76,9 @@
         <el-radio-button label="service">service</el-radio-button>
         <el-radio-button label="service_impl">serviceImpl</el-radio-button>
         <el-radio-button label="controller">controller</el-radio-button>
+        <el-radio-button label="select">select.vue</el-radio-button>
+        <el-radio-button label="index">index.vue</el-radio-button>
+        <el-radio-button label="api">api.js</el-radio-button>
       </el-radio-group>
 
       <prism-editor
@@ -98,7 +119,9 @@ export default {
       formParam: {
         author: 'sunnyc',
         email: 'hczshd@gmail.com',
-        ignorePrefix: 't_'
+        ignorePrefix: 't_',
+        permission: 'system:user',
+        requestMapping: '/system/user'
       },
       // 生成代码参数对象
       paramInfo: {
@@ -110,7 +133,9 @@ export default {
       // 返回结果代码对象 key 是代码类型(entity mapper...) value 是代码内容
       resultCode: {},
       // 结果代码 切换显示改变此变量
-      curCode: ''
+      curCode: '',
+      // 加载动画开关
+      loading: false
     }
   },
 
@@ -147,15 +172,23 @@ export default {
 
     // 生成代码
     generateCode() {
+      this.loading = true
       this.paramInfo.options = this.formParam
       generate(this.paramInfo).then(res => {
         this.resultCode = res.data.code
         // 默认选中entity
         this.curCode = this.resultCode[this.selectedLabel]
+        this.loading = false
         this.$message({
           message: '生成成功！',
           type: 'success'
         })
+      }).catch(res => {
+        this.$message({
+          message: '出现异常：' + res.data.msg,
+          type: 'error'
+        })
+        this.loading = false
       })
     },
 

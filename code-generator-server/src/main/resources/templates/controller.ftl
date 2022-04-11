@@ -22,7 +22,7 @@ import java.util.List;
  * @modify
  */
 @RestController
-@RequestMapping("TODO")
+@RequestMapping("${requestMapping}")
 public class ${classInfo.className}Controller extends BaseController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class ${classInfo.className}Controller extends BaseController {
      * @param ${classInfo.className?uncap_first} ${classInfo.classComment}
      * @return TableDataInfo
      */
-    @PreAuthorize("@ss.hasPermi('TODO list')")
+    @PreAuthorize("@ss.hasPermi('${permission}:list')")
     @GetMapping("list")
     public TableDataInfo list(${classInfo.className} ${classInfo.className?uncap_first}) {
         startPage();
@@ -46,7 +46,7 @@ public class ${classInfo.className}Controller extends BaseController {
      * @param ${classInfo.className?uncap_first}Id ${classInfo.classComment}id
      * @return AjaxResult
      */
-    @PreAuthorize("@ss.hasPermi('TODO query')")
+    @PreAuthorize("@ss.hasPermi('${permission}:query')")
     @GetMapping("/{${classInfo.className?uncap_first}Id}")
     public AjaxResult getInfo(@PathVariable("${classInfo.className?uncap_first}Id") String ${classInfo.className?uncap_first}Id) {
         return AjaxResult.success(${classInfo.className?uncap_first}Service.get${classInfo.className}ById(${classInfo.className?uncap_first}Id));
@@ -57,7 +57,7 @@ public class ${classInfo.className}Controller extends BaseController {
      * @param ${classInfo.className?uncap_first} ${classInfo.classComment}对象
      * @return AjaxResult
      */
-    @PreAuthorize("@ss.hasPermi('TODO add')")
+    @PreAuthorize("@ss.hasPermi('${permission}:add')")
     @Log(title = "${classInfo.classComment}", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ${classInfo.className} ${classInfo.className?uncap_first}) {
@@ -69,7 +69,7 @@ public class ${classInfo.className}Controller extends BaseController {
      * @param ${classInfo.className?uncap_first} ${classInfo.classComment}对象
      * @return AjaxResult
      */
-    @PreAuthorize("@ss.hasPermi('TODO edit')")
+    @PreAuthorize("@ss.hasPermi('${permission}:edit')")
     @Log(title = "${classInfo.classComment}", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ${classInfo.className} ${classInfo.className?uncap_first}) {
@@ -81,7 +81,7 @@ public class ${classInfo.className}Controller extends BaseController {
      * @param ${classInfo.className?uncap_first}Ids ${classInfo.classComment}id数组
      * @return AjaxResult
      */
-    @PreAuthorize("@ss.hasPermi('TODO remove')")
+    @PreAuthorize("@ss.hasPermi('${permission}:remove')")
     @Log(title = "${classInfo.classComment}", businessType = BusinessType.DELETE)
     @DeleteMapping("/{${classInfo.className?uncap_first}Ids}")
     public AjaxResult remove(@PathVariable String[] ${classInfo.className?uncap_first}Ids) {
@@ -93,7 +93,7 @@ public class ${classInfo.className}Controller extends BaseController {
      * @param response HttpServletResponse
      * @param ${classInfo.className?uncap_first} ${classInfo.classComment}对象
      */
-    @PreAuthorize("@ss.hasPermi('TODO export')")
+    @PreAuthorize("@ss.hasPermi('${permission}:export')")
     @Log(title = "${classInfo.classComment}", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ${classInfo.className} ${classInfo.className?uncap_first}) {
@@ -112,7 +112,7 @@ public class ${classInfo.className}Controller extends BaseController {
         util.importTemplateExcel(response, "${classInfo.classComment}");
     }
 
-    @PreAuthorize("@ss.hasPermi('TODO import')")
+    @PreAuthorize("@ss.hasPermi('${permission}:import')")
     @Log(title = "${classInfo.classComment}", businessType = BusinessType.IMPORT)
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file) throws Exception {

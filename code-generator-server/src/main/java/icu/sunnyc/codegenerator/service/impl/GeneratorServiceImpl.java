@@ -38,6 +38,9 @@ public class GeneratorServiceImpl implements GeneratorService {
         templates.add("service.ftl");
         templates.add("service_impl.ftl");
         templates.add("controller.ftl");
+        templates.add("select.ftl");
+        templates.add("index.ftl");
+        templates.add("api.ftl");
         return templates;
     }
 
