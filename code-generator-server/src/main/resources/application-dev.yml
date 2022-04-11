@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 9090
 # 自定义swagger配置信息
 swagger:
   title: 程の代码生成器
