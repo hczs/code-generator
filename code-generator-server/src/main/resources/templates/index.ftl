@@ -65,7 +65,8 @@
 
         <!-- 数据表格 -->
         <el-table v-loading="loading" :data="tableDataList" @selection-change="handleSelectionChange">
-<#-- 遍历字段 -->
+            <el-table-column fixed="left" type="selection" width="55" align="center"/>
+            <#-- 遍历字段 -->
 <#if classInfo.fieldList?? && classInfo.fieldList?size gt 0>
     <#list classInfo.fieldList as fieldItem >
         <#if fieldItem.fieldClass == "Date">
@@ -79,6 +80,23 @@
         </#if>
     </#list>
 </#if>
+            <el-table-column fixed="right" label="操作" align="center" width="120" class-name="small-padding fixed-width">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            type="text"
+                            icon="el-icon-edit"
+                            @click="handleUpdate(scope.row)"
+                            v-hasPermi="['${permission}:edit']"
+                    >修改</el-button>
+                    <el-button
+                            type="text"
+                            icon="el-icon-delete"
+                            @click="handleDelete(scope.row)"
+                            v-hasPermi="['${permission}:remove']"
+                    >删除</el-button>
+                </template>
+            </el-table-column>
         </el-table>
 
         <!-- 分页 -->
@@ -96,7 +114,6 @@
         <#-- 遍历字段 -->
         <#if classInfo.fieldList?? && classInfo.fieldList?size gt 0>
             <#list classInfo.fieldList as fieldItem >
-                <el-table-column label="${fieldItem.fieldComment}" align="center" prop="${fieldItem.fieldName}"/>
                 <el-form-item label="${fieldItem.fieldComment}" prop="${fieldItem.fieldName}">
                     <el-input v-model="formData.${fieldItem.fieldName}" placeholder="请输入${fieldItem.fieldComment}" clearable></el-input>
                 </el-form-item>
@@ -271,6 +288,7 @@
                     // 下拉默认选中第一个
                     // TODO
                 };
+                this.${classInfo.className?uncap_first}Id = null;
                 this.resetForm("form");
             },
             /** 导入按钮操作 */

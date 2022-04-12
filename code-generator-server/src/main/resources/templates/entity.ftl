@@ -22,6 +22,7 @@ public class ${classInfo.className} extends BaseEntity {
      */
     @Excel(name = "${fieldItem.fieldComment}"<#if fieldItem.fieldClass == "Date">, dateFormat = "yyyy-MM-dd HH:mm:ss"</#if>)
     private ${fieldItem.fieldClass} ${fieldItem.fieldName};
+
 </#list>
 </#if>
 
