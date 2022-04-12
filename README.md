@@ -3,15 +3,15 @@
 
 根据建表 SQL 语句生成 实体类、mapper、service、serviceImpl、controller 代码
 
+演示地址：http://49.233.159.81:21345/
+
 ## 截图
 
-![image-20220410141348160](https://sunnyc-1306675975.cos.ap-beijing.myqcloud.com/image-20220410141348160.png)
+![image-20220410141348160](./images/generate.png)
 
 ## 演示
 
-### 演示地址：http://49.233.159.81:21345/
-
-![generator](https://sunnyc-1306675975.cos.ap-beijing.myqcloud.com/generator.gif)
+![generator](./images/generator.gif)
 
 ## TODO
 
