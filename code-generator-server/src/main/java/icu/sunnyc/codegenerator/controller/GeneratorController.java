@@ -32,8 +32,8 @@ public class GeneratorController {
     @Autowired
     private GeneratorService generatorService;
 
-    @ApiOperation("生成代码")
     @PostMapping("/code")
+    @ApiOperation("生成代码")
     public CommonResult generate(@RequestBody ParamInfo paramInfo) {
         if (StringUtils.isEmpty(paramInfo.getTableSql())) {
             return CommonResult.error().message("表结构信息为空");
@@ -44,17 +44,15 @@ public class GeneratorController {
             ClassInfo classInfo = TableParseUtil.processTableIntoClassInfo(paramInfo);
             // 设置相关参数
             paramInfo.getOptions().put("classInfo", classInfo);
-            paramInfo.getOptions().put("tableName", classInfo.getTableName());
             log.info("解析完毕的表对象：{}", classInfo);
-            log.info("参数信息：{}", paramInfo);
+            // hello world 必须有
+            paramInfo.getOptions().put("hello", "hello, world!");
             // 渲染
-            Map<String, String> map = generatorService.renderTemplate(paramInfo.getOptions());
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("code", map);
-            return CommonResult.ok().data(result);
+            return CommonResult.ok().data(generatorService.renderTemplate(paramInfo.getOptions()));
         } catch (CodeGenerateException ex) {
             log.error("生成代码异常，具体信息：{}", ex.getMessage(), ex);
             return CommonResult.error().message(ex.getMessage());
         }
     }
+
 }

@@ -16,21 +16,25 @@ import java.util.List;
 public class ClassInfo {
 
     /**
-     * 表名
+     * 表名 去除过前缀后的表名
      */
     private String tableName;
+
     /**
      * 原始表名
      */
     private String originTableName;
+
     /**
      * 实体类名
      */
     private String className;
+
     /**
      * 实体类描述信息
      */
     private String classComment;
+
     /**
      * 字段信息列表
      */

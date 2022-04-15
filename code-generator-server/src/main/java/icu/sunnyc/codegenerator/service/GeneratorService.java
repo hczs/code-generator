@@ -1,7 +1,6 @@
 package icu.sunnyc.codegenerator.service;
 
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,9 +19,4 @@ public interface GeneratorService {
      */
     Map<String, String> renderTemplate(Map<String, Object> params);
 
-    /**
-     * 获取所有可用模板
-     * @return 所有可用模板
-     */
-    List<String> getAllTemplate();
 }

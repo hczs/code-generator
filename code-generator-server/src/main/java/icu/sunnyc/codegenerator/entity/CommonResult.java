@@ -20,7 +20,7 @@ public class CommonResult {
 
     private String message;
 
-    private Map<String, Object> data = new HashMap<>();
+    private Object data;
 
     private CommonResult() { }
 
@@ -48,15 +48,8 @@ public class CommonResult {
         return commonResult;
     }
 
-
-    public CommonResult data(Map<String, Object> map) {
-        this.setData(map);
-        return this;
-    }
-
-
-    public CommonResult data(String key, Object value) {
-        this.data.put(key, value);
+    public CommonResult data(Object value) {
+        this.data = value;
         return this;
     }
 

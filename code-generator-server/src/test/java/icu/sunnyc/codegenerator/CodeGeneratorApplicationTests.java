@@ -2,12 +2,16 @@ package icu.sunnyc.codegenerator;
 
 import icu.sunnyc.codegenerator.entity.ClassInfo;
 import icu.sunnyc.codegenerator.entity.ParamInfo;
+import icu.sunnyc.codegenerator.entity.TemplateGroup;
 import icu.sunnyc.codegenerator.service.GeneratorService;
+import icu.sunnyc.codegenerator.service.TemplateService;
 import icu.sunnyc.codegenerator.utils.FreemarkerUtil;
 import icu.sunnyc.codegenerator.utils.TableParseUtil;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashMap;
@@ -20,8 +24,40 @@ class CodeGeneratorApplicationTests {
     @Autowired
     private GeneratorService generatorService;
 
+    @Autowired
+    private TemplateService templateService;
+
+    String testGroupName = "hello";
+
+    String testTemplateName = "hello";
+
+    String testTemplateContent = "hello,world!";
+
     /**
-     * 测试解析 DDL SQL
+     * 测试获取所有模板文件业务接口
+     */
+    @Test
+    void testGetAllTemplates() {
+        List<TemplateGroup> groupAndTemplatesMap = templateService.getAllTemplate();
+        System.out.println(groupAndTemplatesMap);
+        Assertions.assertTrue(groupAndTemplatesMap.size() > 0);
+    }
+
+    /**
+     * 测试模板渲染业务接口
+     */
+    @Test
+    void testRenderTemplate() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("hello", "hello world!");
+        params.put("groupName", "test");
+        Map<String, String> map = generatorService.renderTemplate(params);
+        System.out.println(map);
+        Assertions.assertTrue(map.size() > 0);
+    }
+
+    /**
+     * 解析 DDL SQL 根据模板生成结果数据 全流程测试
      */
     @Test
     void testGetClassInfo() {
@@ -46,12 +82,13 @@ class CodeGeneratorApplicationTests {
         HashMap<String, Object> options = new HashMap<>();
         paramInfo.setOptions(options);
         // 忽略表前缀
-        paramInfo.getOptions().put("ignorePrefix", "T_NS_");
+        paramInfo.getOptions().put("ignorePrefix", "t_");
+        // 解析 SQL
         ClassInfo classInfo = TableParseUtil.processTableIntoClassInfo(paramInfo);
-
-        // 设置俩参数模板方便取值
+        // 设置参数 模板中方便取值
         paramInfo.getOptions().put("classInfo", classInfo);
-        paramInfo.getOptions().put("tableName", classInfo.getTableName());
+        // 设置用哪个模板组
+        paramInfo.getOptions().put("groupName", "default");
         Map<String, String> map = generatorService.renderTemplate(paramInfo.getOptions());
         System.out.println(classInfo);
         System.out.println(map);
@@ -60,33 +97,39 @@ class CodeGeneratorApplicationTests {
 
 
     /**
-     * 测试模板渲染
+     * 测试创建模板组文件夹接口
      */
     @Test
-    void testFreemarker() {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("hello", "hello world!");
-        String result = FreemarkerUtil.renderAndGetString("entity.ftl", params);
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    void testGetAllTemplates() {
-        List<String> allTemplate = generatorService.getAllTemplate();
-        System.out.println(allTemplate);
-        Assertions.assertTrue(allTemplate.size() > 0);
+    void testAddTemplateGroupDir() {
+        Assertions.assertTrue(templateService.addTemplateGroup(testGroupName));
     }
 
     /**
-     * 测试模板渲染业务接口
+     * 测试创建模板文件
      */
     @Test
-    void testRenderTemplate() {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("hello", "hello world!");
-        Map<String, String> map = generatorService.renderTemplate(params);
-        System.out.println(map);
-        Assertions.assertTrue(map.size() > 0);
+    void testAddTemplate() {
+        Assertions.assertTrue(templateService.addTemplate(testGroupName, testTemplateName));
+    }
+
+    /**
+     * 测试 写入/更新 模板文件
+     */
+    @Test
+    void testUpdateTemplate() {
+        Assertions.assertTrue(templateService.updateTemplateContent(testGroupName, testTemplateName, testTemplateContent));
+    }
+
+    /**
+     * 测试删除模板文件夹接口
+     */
+    @Test
+    void testDeleteTemplateGroup() {
+        Assertions.assertTrue(templateService.deleteTemplateGroup(testGroupName));
+    }
+
+    public static void main(String[] args) {
+        System.out.println(RandomUtils.nextInt());
     }
 
 }

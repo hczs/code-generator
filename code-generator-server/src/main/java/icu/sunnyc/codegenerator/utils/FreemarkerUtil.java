@@ -5,8 +5,12 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import icu.sunnyc.codegenerator.config.CodeGeneratorProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Locale;
@@ -25,8 +29,8 @@ public class FreemarkerUtil {
 
     static {
         try {
-            freemarkerConfig.setClassForTemplateLoading(FreemarkerUtil.class, "/templates");
-            freemarkerConfig.setTemplateLoader(new ClassTemplateLoader(FreemarkerUtil.class, "/templates"));
+            CodeGeneratorProperties generatorProperties = SpringContextUtil.getBean(CodeGeneratorProperties.class);
+            freemarkerConfig.setDirectoryForTemplateLoading(new File(generatorProperties.getTemplatesPath()));
             freemarkerConfig.setNumberFormat("#");
             freemarkerConfig.setClassicCompatible(true);
             freemarkerConfig.setDefaultEncoding("UTF-8");
@@ -35,6 +39,9 @@ public class FreemarkerUtil {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
+    }
+
+    private FreemarkerUtil() {
     }
 
     /**

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Layout from '@/layout'
 
 Vue.use(Router)
 
@@ -28,6 +29,30 @@ Vue.use(Router)
  * all roles can be accessed
  */
 export const constantRoutes = [
+
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/generator',
+    children: [{
+      path: 'generator',
+      name: 'Generator',
+      component: () => import('@/views/generator/index'),
+      meta: { title: '代码生成器', icon: 'example' }
+    }]
+  },
+
+  {
+    path: '/template',
+    component: Layout,
+    redirect: '/template',
+    children: [{
+      path: 'template',
+      name: 'Template',
+      component: () => import('@/views/template/index'),
+      meta: { title: '模板管理', icon: 'nested' }
+    }]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

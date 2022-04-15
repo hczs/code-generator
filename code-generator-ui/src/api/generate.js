@@ -7,10 +7,3 @@ export function generate(data) {
     data
   })
 }
-
-export function getAllTemplate() {
-  return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get'
-  })
-}

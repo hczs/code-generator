@@ -9,17 +9,22 @@ import '@/styles/index.scss' // global css
 
 import 'vue-prism-editor/dist/prismeditor.min.css' // import the styles
 
+import VueContextMenu from '@xunlei/vue-context-menu' // 右键菜单组件
+
 import App from './App'
 import store from './store'
+import router from './router'
 
 import '@/icons' // icon
 
 Vue.use(ElementUI)
+Vue.use(VueContextMenu)
 
 Vue.config.productionTip = false
 
 new Vue({
   el: '#app',
   store,
+  router,
   render: h => h(App)
 })

@@ -1,9 +1,15 @@
 package icu.sunnyc.codegenerator.service.impl;
 
+import icu.sunnyc.codegenerator.entity.FreemarkerTemplate;
+import icu.sunnyc.codegenerator.entity.TemplateGroup;
 import icu.sunnyc.codegenerator.exception.CodeGenerateException;
 import icu.sunnyc.codegenerator.service.GeneratorService;
+import icu.sunnyc.codegenerator.service.TemplateService;
 import icu.sunnyc.codegenerator.utils.FreemarkerUtil;
+import icu.sunnyc.codegenerator.utils.MapUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -18,34 +24,28 @@ import java.util.*;
  * @date ：Created in 2022/4/9 13:23
  * @modified ：
  */
-@Service
 @Slf4j
+@Service
 public class GeneratorServiceImpl implements GeneratorService {
+
+    @Autowired
+    private TemplateService templateService;
 
     @Override
     public Map<String, String> renderTemplate(Map<String, Object> params) {
         HashMap<String, String> resultMap = new HashMap<>();
-        List<String> allTemplate = getAllTemplate();
-        for (String template : allTemplate) {
-            String result = FreemarkerUtil.renderAndGetString(template, params);
-            resultMap.put(template.split("\\.")[0], result);
+        List<TemplateGroup> templateGroups = templateService.getAllTemplate();
+        String groupName = params.getOrDefault("groupName", "default").toString();
+        for (TemplateGroup templateGroup : templateGroups) {
+            if (templateGroup.getGroupName().equals(groupName)) {
+                for (FreemarkerTemplate template : templateGroup.getTemplates()) {
+                    String templateName = template.getTemplateName();
+                    String result = FreemarkerUtil.renderAndGetString(groupName + File.separator + templateName, params);
+                    resultMap.put(groupName + "-" + templateName.split("\\.")[0], result);
+                }
+            }
         }
         return resultMap;
     }
 
-    @Override
-    public List<String> getAllTemplate() {
-        // 后续数据库存储模板信息 可自定义上传模板相关操作
-        ArrayList<String> templates = new ArrayList<>();
-        // 暂时恢复硬编码方式 后续有时间再改
-        templates.add("entity.ftl");
-        templates.add("mapper.ftl");
-        templates.add("service.ftl");
-        templates.add("service_impl.ftl");
-        templates.add("controller.ftl");
-        templates.add("select.ftl");
-        templates.add("index.ftl");
-        templates.add("api.ftl");
-        return templates;
-    }
 }
