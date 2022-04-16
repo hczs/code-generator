@@ -98,6 +98,11 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public boolean addTemplate(String groupName, String templateName) {
         String filePath = templatesPath + File.separator + groupName + File.separator + templateName + fileSuffix;
+        // 判断是否存在
+        if (new File(filePath).exists()) {
+            log.warn("模板文件已存在，文件夹路径：{}", filePath);
+            throw new CodeGenerateException("模板文件已存在");
+        }
         try {
             FileUtils.touch(new File(filePath));
             return true;
