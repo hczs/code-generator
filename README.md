@@ -5,16 +5,21 @@
 
 演示地址：http://49.233.159.81:21345/
 
-## 截图
+## 特性
 
-![image-20220410141348160](./images/generate.png)
+### 1. 解析建表 SQL，根据模板生成代码
 
-## 演示
+![image-20220416130817223](./images/generate.png)
 
-![generator](./images/generator.gif)
+### 2. 可自定义生成代码的模板
+
+![image-20220416132426459](./images/template.png)
+
+### 3. 使用自定义的模板生成代码
+
+![image-20220416132521904](./images/custom.png)
 
 ## TODO
 
-1. vue 页面生成
-
-2. 可自定义模板上传
+- [x] 可自定义代码生成模板
+- [ ] 模板编写指南
