@@ -2,7 +2,7 @@
   <div class="app-container scrollbar-main">
 
     <el-card>
-      <h2>在下方粘贴建表 SQL 语句即可生成代码</h2>
+      <h2>在下方粘贴建表. SQL 语句即可生成代码</h2>
     </el-card>
 
     <prism-editor
@@ -22,7 +22,12 @@
                   <span><i class="el-icon-question" /> 模板组</span>
                 </el-tooltip>
               </span>
-              <el-select v-model="formParam.groupName" placeholder="请选择模板组" @change="templateGroupChange">
+              <el-select
+                v-model="formParam.groupName"
+                placeholder="请选择模板组"
+                style="width: 100%"
+                @change="templateGroupChange"
+              >
                 <el-option
                   v-for="item in templateGroups"
                   :key="item.groupName"
