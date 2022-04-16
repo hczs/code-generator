@@ -5,13 +5,13 @@ import icu.sunnyc.codegenerator.entity.ParamInfo;
 import icu.sunnyc.codegenerator.entity.TemplateGroup;
 import icu.sunnyc.codegenerator.service.GeneratorService;
 import icu.sunnyc.codegenerator.service.TemplateService;
-import icu.sunnyc.codegenerator.utils.FreemarkerUtil;
 import icu.sunnyc.codegenerator.utils.TableParseUtil;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashMap;
@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
+// 按照 order 注解标志的顺序执行单元测试
+@TestMethodOrder(OrderAnnotation.class)
 class CodeGeneratorApplicationTests {
 
     @Autowired
@@ -37,6 +39,7 @@ class CodeGeneratorApplicationTests {
      * 测试获取所有模板文件业务接口
      */
     @Test
+    @Order(1)
     void testGetAllTemplates() {
         List<TemplateGroup> groupAndTemplatesMap = templateService.getAllTemplate();
         System.out.println(groupAndTemplatesMap);
@@ -47,10 +50,10 @@ class CodeGeneratorApplicationTests {
      * 测试模板渲染业务接口
      */
     @Test
+    @Order(2)
     void testRenderTemplate() {
         HashMap<String, Object> params = new HashMap<>();
         params.put("hello", "hello world!");
-        params.put("groupName", "test");
         Map<String, String> map = generatorService.renderTemplate(params);
         System.out.println(map);
         Assertions.assertTrue(map.size() > 0);
@@ -60,6 +63,7 @@ class CodeGeneratorApplicationTests {
      * 解析 DDL SQL 根据模板生成结果数据 全流程测试
      */
     @Test
+    @Order(3)
     void testGetClassInfo() {
         ParamInfo paramInfo = new ParamInfo();
         paramInfo.setTableSql("CREATE TABLE 't_staff' (\n" +
@@ -100,6 +104,7 @@ class CodeGeneratorApplicationTests {
      * 测试创建模板组文件夹接口
      */
     @Test
+    @Order(4)
     void testAddTemplateGroupDir() {
         Assertions.assertTrue(templateService.addTemplateGroup(testGroupName));
     }
@@ -108,6 +113,7 @@ class CodeGeneratorApplicationTests {
      * 测试创建模板文件
      */
     @Test
+    @Order(5)
     void testAddTemplate() {
         Assertions.assertTrue(templateService.addTemplate(testGroupName, testTemplateName));
     }
@@ -116,6 +122,7 @@ class CodeGeneratorApplicationTests {
      * 测试 写入/更新 模板文件
      */
     @Test
+    @Order(6)
     void testUpdateTemplate() {
         Assertions.assertTrue(templateService.updateTemplateContent(testGroupName, testTemplateName, testTemplateContent));
     }
@@ -124,12 +131,9 @@ class CodeGeneratorApplicationTests {
      * 测试删除模板文件夹接口
      */
     @Test
+    @Order(7)
     void testDeleteTemplateGroup() {
         Assertions.assertTrue(templateService.deleteTemplateGroup(testGroupName));
-    }
-
-    public static void main(String[] args) {
-        System.out.println(RandomUtils.nextInt());
     }
 
 }
