@@ -8,7 +8,7 @@
 
 基于项目：https://github.com/moshowgame/SpringBootCodeGenerator 开发，感谢作者 @moshowgame
 
-主要添加了可自定义模板功能，可自定义代码生成的模板，完全在 web 端即可操作
+**主要添加了可自定义模板功能，可自定义代码生成的模板，完全在 web 端即可新增自己的模板，并且使用自己自定义的模板生成代码**
 
 演示地址：http://49.233.159.81:21345/
 
