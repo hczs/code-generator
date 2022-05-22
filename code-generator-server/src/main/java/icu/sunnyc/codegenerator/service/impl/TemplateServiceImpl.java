@@ -30,7 +30,9 @@ public class TemplateServiceImpl implements TemplateService {
     @Value("${freemarker.deleted-path}")
     private String deletedPath;
 
-    String fileSuffix = ".ftl";
+    private static final String FILE_SUFFIX = ".ftl";
+
+    private static final String DEFAULT_GROUP_NAME = "default";
 
     @Override
     public List<TemplateGroup> getAllTemplate() {
@@ -84,6 +86,10 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public boolean deleteTemplateGroup(String groupName) {
+        if (DEFAULT_GROUP_NAME.equals(groupName)) {
+            log.warn("默认模板组无法删除，模板组名称：{}", groupName);
+            throw new CodeGenerateException("默认模板组无法删除");
+        }
         String srcDir = templatesPath + File.separator + groupName;
         String destDir = deletedPath + File.separator + RandomUtils.nextInt() + "-" + groupName;
         try {
@@ -97,7 +103,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public boolean addTemplate(String groupName, String templateName) {
-        String filePath = templatesPath + File.separator + groupName + File.separator + templateName + fileSuffix;
+        String filePath = templatesPath + File.separator + groupName + File.separator + templateName + FILE_SUFFIX;
         // 判断是否存在
         if (new File(filePath).exists()) {
             log.warn("模板文件已存在，文件夹路径：{}", filePath);
@@ -114,7 +120,11 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public boolean updateTemplateContent(String groupName, String templateName, String templateContent) {
-        String filePath = templatesPath + File.separator + groupName + File.separator + templateName + fileSuffix;
+        if (DEFAULT_GROUP_NAME.equals(groupName)) {
+            log.warn("默认模板组下的默认模板无法修改，模板组名称：{}", groupName);
+            throw new CodeGenerateException("默认模板组下的默认模板无法修改");
+        }
+        String filePath = templatesPath + File.separator + groupName + File.separator + templateName + FILE_SUFFIX;
         try {
             FileUtils.writeStringToFile(new File(filePath), templateContent, StandardCharsets.UTF_8);
             return true;
@@ -126,6 +136,10 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public boolean deleteTemplate(String groupName, String templateName) {
+        if (DEFAULT_GROUP_NAME.equals(groupName)) {
+            log.warn("默认模板组下的默认模板无法删除，模板组名称：{}", groupName);
+            throw new CodeGenerateException("默认模板组下的默认模板无法删除");
+        }
         String srcFile = templatesPath + File.separator + groupName + File.separator + templateName;
         String destFile = deletedPath + File.separator + RandomUtils.nextInt() + "-" + templateName;
         try {
