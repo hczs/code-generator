@@ -1,3 +1,5 @@
 /code-generator-server/.idea/
 /code-generator-server/target/
 /code-generator-server/code-generator.iml
+/code-generator-server/deleted/
+/code-generator-server/templates/
