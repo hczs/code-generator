@@ -4,7 +4,7 @@ server:
 swagger:
   title: 程の代码生成器
   description: 一键生成前后端所有代码
-  version: 1.0
+  version: 1.0.0
 
 freemarker:
   # freemarker 模板文件夹路径
