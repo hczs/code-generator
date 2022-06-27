@@ -11,7 +11,7 @@
     <groupId>icu.sunnyc</groupId>
     <artifactId>code-generator</artifactId>
     <version>1.0.0</version>
-    <name>code-generator</name>
+    <name>code-generator-server</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
@@ -96,6 +96,37 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <!-- maven 打包时跳过测试 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <!-- jib docker 打包插件 -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <from>
+                        <image>openjdk:8-jdk-alpine</image>
+                    </from>
+                    <to>
+                        <image>docker.io/hsunnyc/${project.name}:${project.version}</image>
+                    </to>
+                </configuration>
+                <!--绑定到maven lifecicle-->
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
