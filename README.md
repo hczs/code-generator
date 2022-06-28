@@ -12,6 +12,54 @@
 
 演示地址：http://49.233.159.81:21345/
 
+## 部署
+
+部署需要安装 [docker](https://docs.docker.com/engine/install/#server) 和 [docker-compose](https://docs.docker.com/compose/install/#install-compose-on-linux-systems)
+
+或者直接安装 [docker 桌面版](https://www.docker.com/products/docker-desktop/)
+
+1. 创建 docker-compose.yml 文件，21345 可以改成任意你喜欢的端口号，后续通过此端口号访问项目
+
+   ```yaml
+   version: "3"
+   services:
+     api:
+       image: hsunnyc/code-generator-server:1.0.0
+       restart: always
+       volumes:
+         - ./templates:/opt/service/code-generator/templates
+         - ./deleted:/opt/service/code-generator/deleted
+       environment:
+         TZ: Asia/Shanghai
+     web:
+       image: hsunnyc/code-generator-ui:1.0.0
+       restart: always
+       environment:
+         TZ: Asia/Shanghai
+       ports:
+         - "21345:80"
+       depends_on:
+         - api
+   ```
+
+2. 启动，在 docker-compose.yml 同级目录下
+
+   ```shell
+   # 前台启动
+   docker-compose up
+   # 后台启动 [推荐]
+   docker-compose up -d
+   # 停止
+   docker-compose down
+   ```
+
+3. 在你 docker-compose.yml 会出现 templates 和 deleted 两个文件夹
+
+   - templates：存储模板组，也就是目前所有模板文件
+   - deleted ：存储已删除的模板文件
+
+4. 访问 `http://[your_ip]:21345`
+
 ## 特性
 
 ### 1. 解析建表 SQL，根据模板生成代码
