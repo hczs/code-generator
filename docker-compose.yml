@@ -1,0 +1,56 @@
+version: "3"
+services:
+  # 后端springboot容器
+  # api:
+  #   container_name: code-generator-server
+  #   # 重启策略: 容器退出时总是重启容器
+  #   restart: always
+  #   build:
+  #     # 指定设定上下文根目录，然后以该目录为准指定 Dockerfile
+  #     context: ./
+  #     dockerfile: ./docker/server-Dockerfile
+  #   working_dir: /app
+  #   environment:
+  #     TZ: Asia/Shanghai
+  #   volumes:
+  #     # 将本地的 java 代码挂载到容器中
+  #     - ./code-generator-server:/app
+  #   # 后端项目不做端口映射
+  #   ports:
+  #     - "30306:30306"
+  #   # 容器创建后执行命令运行 springboot 项目
+  #   command: mvn clean spring-boot:run -Dspring-boot.run.profiles=prod '-Dmaven.test.skip=true'
+  # 后端容器 使用打包好的
+  api:
+    image: hsunnyc/code-generator-server:1.0.0
+    restart: always
+    # 挂载模板和删除目录
+    volumes:
+      - ./templates:/opt/service/code-generator/templates
+      - ./deleted:/opt/service/code-generator/deleted
+    environment:
+      TZ: Asia/Shanghai
+  # 前端项目容器
+  web:
+    # container_name: code-generator-ui
+    # restart: always
+    # build:
+    #   context: ./
+    #   dockerfile: ./docker/web/ui-Dockerfile
+    # environment:
+    #   TZ: Asia/Shanghai
+    # ports:
+    #   - "8090:80"
+    # # 让 api 先启动
+    # depends_on:
+    #   - api
+    # 直接基于打包好的镜像
+    image: hsunnyc/code-generator-ui:1.0.0
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "8090:80"
+    # 让 api 先启动
+    depends_on:
+      - api
