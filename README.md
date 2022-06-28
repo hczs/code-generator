@@ -53,7 +53,7 @@
    docker-compose down
    ```
 
-3. 在你 docker-compose.yml 会出现 templates 和 deleted 两个文件夹
+3. 在你 docker-compose.yml 同级目录下会出现 templates 和 deleted 两个文件夹
 
    - templates：存储模板组，也就是目前所有模板文件
    - deleted ：存储已删除的模板文件
