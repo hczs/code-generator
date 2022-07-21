@@ -24,7 +24,7 @@
    version: "3"
    services:
      api:
-       image: hsunnyc/code-generator-server:1.0.0
+       image: hsunnyc/code-generator-server:1.0.1
        restart: always
        volumes:
          - ./templates:/opt/service/code-generator/templates
@@ -32,7 +32,7 @@
        environment:
          TZ: Asia/Shanghai
      web:
-       image: hsunnyc/code-generator-ui:1.0.0
+       image: hsunnyc/code-generator-ui:1.0.1
        restart: always
        environment:
          TZ: Asia/Shanghai
