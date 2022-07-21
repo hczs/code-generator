@@ -236,20 +236,22 @@ export default {
           this.loading = true
           this.paramInfo.options = this.formParam
           generate(this.paramInfo).then(res => {
-            this.resultCode = res.data
-            // 默认选中entity
-            this.curCode = this.resultCode[this.selectedLabel]
-            this.loading = false
-            this.$message({
-              message: '生成成功！',
-              type: 'success'
-            })
-          }).catch(res => {
-            this.$message({
-              message: '出现异常：' + res.data.msg,
-              type: 'error'
-            })
-            this.loading = false
+            if (res.code === 0) {
+              this.resultCode = res.data
+              // 默认选中entity
+              this.curCode = this.resultCode[this.selectedLabel]
+              this.loading = false
+              this.$message({
+                message: '生成成功！',
+                type: 'success'
+              })
+            } else {
+              this.$message({
+                message: res.message,
+                type: 'error'
+              })
+              this.loading = false
+            }
           })
         } else {
           this.$message.error('请选择模板组')

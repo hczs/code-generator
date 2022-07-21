@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
             return CommonResult.error().message("传参错误");
         } else {
             log.error("未知错误", e);
-            return CommonResult.error().message("服务内部异常");
+            return CommonResult.error().message("服务内部异常，异常信息：" + e.getMessage());
         }
     }
 }

@@ -6,6 +6,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import icu.sunnyc.codegenerator.config.CodeGeneratorProperties;
+import icu.sunnyc.codegenerator.exception.CodeGenerateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -59,8 +60,8 @@ public class FreemarkerUtil {
         } catch (IOException | TemplateException e) {
             log.error("模板渲染异常");
             log.error(e.getMessage(), e);
+            throw new CodeGenerateException("模板渲染异常，异常信息：" + e.getMessage());
         }
-        return null;
     }
 
     /**
