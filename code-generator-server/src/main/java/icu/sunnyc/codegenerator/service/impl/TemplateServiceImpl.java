@@ -29,10 +29,11 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Value("${freemarker.deleted-path}")
     private String deletedPath;
+    
+    @Value("${generator.protected-group}")
+    private List<String> protectedGroupList;
 
     private static final String FILE_SUFFIX = ".ftl";
-
-    private static final String DEFAULT_GROUP_NAME = "default";
 
     @Override
     public List<TemplateGroup> getAllTemplate() {
@@ -86,7 +87,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public boolean deleteTemplateGroup(String groupName) {
-        if (DEFAULT_GROUP_NAME.equals(groupName)) {
+        if (protectedGroupList.contains(groupName)) {
             log.warn("默认模板组无法删除，模板组名称：{}", groupName);
             throw new CodeGenerateException("默认模板组无法删除");
         }
@@ -120,7 +121,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public boolean updateTemplateContent(String groupName, String templateName, String templateContent) {
-        if (DEFAULT_GROUP_NAME.equals(groupName)) {
+        if (protectedGroupList.contains(groupName)) {
             log.warn("默认模板组下的默认模板无法修改，模板组名称：{}", groupName);
             throw new CodeGenerateException("默认模板组下的默认模板无法修改");
         }
@@ -136,7 +137,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public boolean deleteTemplate(String groupName, String templateName) {
-        if (DEFAULT_GROUP_NAME.equals(groupName)) {
+        if (protectedGroupList.contains(groupName)) {
             log.warn("默认模板组下的默认模板无法删除，模板组名称：{}", groupName);
             throw new CodeGenerateException("默认模板组下的默认模板无法删除");
         }

@@ -5,3 +5,6 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+generator:
+  protected-group: default,renren-fast,jdbc-template,jpa,ui,jpa-starp,util,beetlsql,common-mapper,mybatis,mybatis-plus
