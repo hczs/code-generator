@@ -12,6 +12,10 @@
 
 演示地址：http://49.233.159.81:21345/
 
+## 模板编写指南
+
+项目中用的自定义模板是 FreeMarker，附上一份项目模板编写说明：https://www.sunnyc.icu/articles/4bfb823a/
+
 ## 部署
 
 部署需要安装 [docker](https://docs.docker.com/engine/install/#server) 和 [docker-compose](https://docs.docker.com/compose/install/#install-compose-on-linux-systems)
@@ -77,4 +81,4 @@
 ## TODO
 
 - [x] 可自定义代码生成模板
-- [ ] 模板编写指南
+- [x] 模板编写指南
