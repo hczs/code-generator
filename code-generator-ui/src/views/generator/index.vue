@@ -2,7 +2,7 @@
   <div class="app-container scrollbar-main">
 
     <el-card>
-      <h2>在下方粘贴建表. SQL 语句即可生成代码</h2>
+      <h2>在下方粘贴建表 SQL 语句即可生成代码</h2>
     </el-card>
 
     <prism-editor
@@ -84,8 +84,21 @@
           </el-col>
 
         </el-row>
+        <el-divider content-position="left">如果默认参数不能满足需求，可以在下方自定义参数</el-divider>
+        <b-ace-editor
+          v-model="customParams"
+          lang="json"
+          width="100%"
+          height="300"
+          theme="dracula"
+          :snippets="true"
+          :readonly="false"
+          :font-size="16"
+        />
       </el-form>
-      <el-button v-loading.fullscreen.lock="loading" type="success" @click="generateCode">生成代码</el-button>
+      <br>
+      <el-button v-loading.fullscreen.lock="loading" type="primary" @click="generateCode">生成代码</el-button>
+      <el-button type="primary" @click="handleFormat" > 格式化JSON数据 </el-button>
       <el-button @click="clear">清空</el-button>
 
     </el-card>
@@ -125,12 +138,26 @@ import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
 import 'prismjs/themes/prism-tomorrow.css'
 
+const defaultCustomParams = `{
+  "param1": "value1",
+  "param2": "value2",
+  "paramList": [
+    {
+      "userName": "zahngsan",
+      "password": "123456"
+    },
+    {
+      "userName": "lisi",
+      "password": "123456"
+    }
+  ]
+}`
+
 export default {
-  name: 'Generator',
+  name: 'CodeGenerator',
   components: {
     PrismEditor
   },
-
   data() {
     return {
       // true为编辑模式， false只展示不可编辑
@@ -171,7 +198,9 @@ export default {
         groupName: [
           { required: true, message: '请选择模板组', trigger: 'blur' }
         ]
-      }
+      },
+      // 自定义参数
+      customParams: defaultCustomParams
     }
   },
 
@@ -206,6 +235,8 @@ export default {
     // 清空表单
     clear() {
       this.formParam = {}
+      // 清空自定义 json 数据
+      this.customParams = `{}`
     },
 
     // 初始化模板组信息
@@ -232,8 +263,12 @@ export default {
     // 生成代码
     generateCode() {
       this.$refs['paramForm'].validate((valid) => {
+        if (this.parseJson(this.customParams) == null) {
+          this.$message.warning('自定义参数的格式错误，程序无法解析使用')
+        }
         if (valid) {
           this.loading = true
+          this.formParam.customParams = this.parseJson(this.customParams)
           this.paramInfo.options = this.formParam
           generate(this.paramInfo).then(res => {
             if (res.code === 0) {
@@ -268,6 +303,20 @@ export default {
     clickForCopy() {
       // TODO
       console.log('别点我')
+    },
+
+    // 格式化当前 json 数据
+    handleFormat() {
+      this.customParams = JSON.stringify(JSON.parse(this.customParams), null, 2)
+    },
+
+    // json 解析，如果解析失败则返回空
+    parseJson(value) {
+      try {
+        return JSON.parse(value.trim())
+      } catch (e) {
+        return null
+      }
     }
   }
 }

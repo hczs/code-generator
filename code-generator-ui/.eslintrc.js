@@ -14,12 +14,14 @@ module.exports = {
   // add your custom rules here
   //it is base on https://github.com/vuejs/eslint-config-vue
   rules: {
-    "vue/max-attributes-per-line": [2, {
-      "singleline": 10,
-      "multiline": {
-        "max": 1,
-        "allowFirstLine": false
-      }
+    // 强制每行的最大属性数
+    'vue/max-attributes-per-line': [2, {
+      // 单行时可以接收最大数量
+      singleline: 10,
+      // 多行时可以接收最大数量
+      multiline: {
+        max: 1,
+      },
     }],
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline":"off",

@@ -48,9 +48,9 @@
 
       <el-container>
         <el-header style="text-align: right" height="40px">
-          <el-button style="margin-top: 7px" type="success" plain @click="openAddGroup">新增模板组</el-button>
-          <el-button style="margin-top: 7px" type="success" plain @click="openAddTemplate">新增模板</el-button>
-          <el-button style="margin-top: 7px" type="success" plain @click="submitTemplateContent">提交修改</el-button>
+          <el-button style="margin-top: 7px" type="primary" plain @click="openAddGroup">新增模板组</el-button>
+          <el-button style="margin-top: 7px" type="primary" plain @click="openAddTemplate">新增模板</el-button>
+          <el-button style="margin-top: 7px" type="primary" plain @click="submitTemplateContent">提交修改</el-button>
         </el-header>
         <el-main style="padding: 0 5px">
           <prism-editor
