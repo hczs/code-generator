@@ -68,15 +68,15 @@
 
 ### 1. 解析建表 SQL，根据模板生成代码
 
-![image-20220416130817223](./images/generate.png)
+![image-20220416130817223](./images/generate1.png)
+
+![image-20220416130817223](./images/generate2.png)
+
+![image-20220416130817223](./images/generate3.png)
 
 ### 2. 可自定义生成代码的模板
 
 ![image-20220416132426459](./images/template.png)
-
-### 3. 使用自定义的模板生成代码
-
-![image-20220416132521904](./images/custom.png)
 
 ## TODO
 
