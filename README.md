@@ -10,11 +10,11 @@
 
 **主要添加了可自定义模板功能，可自定义代码生成的模板，完全在 web 端即可新增自己的模板，并且使用自己自定义的模板生成代码**
 
-演示地址：http://61.153.191.232:21345/#/generator
+演示地址（服务器到期，请下拉查看效果）：~~http://61.153.191.232:21345/#/generator~~
 
 ## 模板编写指南
 
-项目中用的自定义模板是 FreeMarker，附上一份项目模板编写说明：https://www.sunnyc.icu/articles/4bfb823a/
+项目中用的自定义模板是 FreeMarker，附上一份项目模板编写说明：https://www.powercheng.fun/articles/4bfb823a/
 
 ## 部署
 
